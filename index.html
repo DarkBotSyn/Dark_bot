@@ -1072,6 +1072,18 @@ const comandos = {
       { name: '!alias', syntax: '!alias [tu alias]', desc: 'Establece tu apodo global permanente. Solo cambiable con !suicidio', tags: ['perfil'] },
     ]
   },
+  'Administración': {
+    icon: '⚙',
+    desc: 'Comandos exclusivos para administradores del grupo',
+    commands: [
+      { name: '!economia on/off', syntax: '!economia on\n!economia off', desc: 'Activa o desactiva todos los comandos de economia en el grupo (trabajo, diario, robo, etc.)', tags: ['admin', 'toggle'] },
+      { name: '!diversion on/off', syntax: '!diversion on\n!diversion off', desc: 'Activa o desactiva los comandos de diversion en el grupo (amor, top, fake, etc.)', tags: ['admin', 'toggle'] },
+      { name: '!misiones on/off', syntax: '!misiones on\n!misiones off', desc: 'Activa o desactiva el sistema de misiones diarias en el grupo', tags: ['admin', 'toggle'] },
+      { name: '!gacha on/off', syntax: '!gacha on\n!gacha off', desc: 'Activa o desactiva todos los comandos del sistema gacha en el grupo', tags: ['admin', 'toggle'] },
+      { name: '!onlyadmin on/off', syntax: '!onlyadmin on\n!onlyadmin off', desc: 'Modo solo admins: cuando esta ON solo los administradores pueden usar el bot', tags: ['admin', 'seguridad'] },
+      { name: '!kick', syntax: '!kick @usuario', desc: 'Expulsa a un usuario del grupo. Tambien funciona respondiendo al mensaje del usuario a expulsar', tags: ['admin', 'moderacion'] },
+    ]
+  },
   'Gacha': {
     icon: '◈',
     desc: 'Sistema de personajes coleccionables',
@@ -1540,7 +1552,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── TOPS ─────────────────────────────────────────────────
-const API_BASE = 'https://drill-robert-bones-guides.trycloudflare.com';
+const API_BASE = 'https://lows-tan-nokia-instrumental.trycloudflare.com';
 
 function renderTopRow(i, name, value, label, type) {
   const posClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'normal';
@@ -2117,7 +2129,7 @@ const ZOMBIE_TYPES={
 // ══ STATE ══
 let phase='menu',round=1,totalKills=0;
 let sessionRewards={diamonds:0,tickets:0,drugs:0};
-const API_URL='https://drill-robert-bones-guides.trycloudflare.com';
+const API_URL='https://lows-tan-nokia-instrumental.trycloudflare.com';
 let gameStartTime=0,player={};
 let ammo=MAX_AMMO,reloading=false,reloadTimer=0;
 let pellets=[],zombies=[],bloods=[],dmgNums=[],spitProjectiles=[],explosions=[];
@@ -3912,7 +3924,7 @@ function gameOver(reason){
 }
 function showTitle(){document.getElementById(&#x27;gameover-screen&#x27;).classList.add(&#x27;hidden&#x27;);document.getElementById(&#x27;title-screen&#x27;).classList.remove(&#x27;hidden&#x27;);}
 
-const API_URL=&#x27;https://drill-robert-bones-guides.trycloudflare.com&#x27;;
+const API_URL=&#x27;https://lows-tan-nokia-instrumental.trycloudflare.com&#x27;;
 async function generateCode(){
   const alias=document.getElementById(&#x27;alias-input&#x27;).value.trim();
   if(!alias){document.getElementById(&#x27;alias-input&#x27;).focus();return;}
