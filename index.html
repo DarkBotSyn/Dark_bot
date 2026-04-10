@@ -937,14 +937,29 @@
     <button class="btn-jugar" onclick="openGame('space')">▶ JUGAR</button>
   </div>
 
+  <div class="minijuego-card">
+    <div class="minijuego-icon">◈</div>
+    <div class="minijuego-info">
+      <div class="minijuego-name">DARK SNAKE</div>
+      <div class="minijuego-desc">
+        Guia a la serpiente y recolecta manzanas. Compatible con movil y PC — usa el D-pad tactil o las teclas de flecha.<br>
+        Cada 3 manzanas recogidas generan un codigo con 1 diamante real para el bot.
+      </div>
+      <div class="minijuego-drops">
+        <span class="drop-tag drop-diamond">3 manzanas = 1 diamante</span>
+        <span class="drop-tag" style="background:rgba(0,255,100,0.08);border:1px solid rgba(0,255,100,0.25);color:#00ff64;">Codigo: SNAKE-XXXX</span>
+      </div>
+    </div>
+    <button class="btn-jugar" onclick="openGame('snake')">▶ JUGAR</button>
+  </div>
+
   <div class="category-intro proximamente" style="margin-top:1rem;border-radius:4px;">
     <div style="font-size:1.1rem;margin-bottom:0.6rem;opacity:0.5;">⚙ ⚙ ⚙</div>
-    <div style="font-family:'Orbitron',monospace;font-size:0.82rem;font-weight:700;letter-spacing:0.25em;margin-bottom:0.75rem;">Próximamente más minijuegos...</div>
+    <div style="font-family:'Orbitron',monospace;font-size:0.82rem;font-weight:700;letter-spacing:0.25em;margin-bottom:0.75rem;">Proximamente mas minijuegos...</div>
     <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;font-family:'Share Tech Mono',monospace;font-size:0.6rem;">
-      <span style="background:rgba(255,60,60,0.08);border:1px dashed rgba(255,60,60,0.25);padding:0.2rem 0.7rem;border-radius:2px;color:rgba(255,60,60,0.5);">🃏 Blackjack</span>
-      <span style="background:rgba(255,60,60,0.08);border:1px dashed rgba(255,60,60,0.25);padding:0.2rem 0.7rem;border-radius:2px;color:rgba(255,60,60,0.5);">🐍 Snake</span>
-      <span style="background:rgba(255,60,60,0.08);border:1px dashed rgba(255,60,60,0.25);padding:0.2rem 0.7rem;border-radius:2px;color:rgba(255,60,60,0.5);">🎯 Tiro al blanco</span>
-      <span style="background:rgba(255,60,60,0.08);border:1px dashed rgba(255,60,60,0.25);padding:0.2rem 0.7rem;border-radius:2px;color:rgba(255,60,60,0.5);">💣 Minesweeper</span>
+      <span style="background:rgba(255,60,60,0.08);border:1px dashed rgba(255,60,60,0.25);padding:0.2rem 0.7rem;border-radius:2px;color:rgba(255,60,60,0.5);">Blackjack</span>
+      <span style="background:rgba(255,60,60,0.08);border:1px dashed rgba(255,60,60,0.25);padding:0.2rem 0.7rem;border-radius:2px;color:rgba(255,60,60,0.5);">Tiro al blanco</span>
+      <span style="background:rgba(255,60,60,0.08);border:1px dashed rgba(255,60,60,0.25);padding:0.2rem 0.7rem;border-radius:2px;color:rgba(255,60,60,0.5);">Minesweeper</span>
     </div>
   </div>
 </div>
@@ -970,21 +985,23 @@ const ARROW = `<svg viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000
 const comandos = {
   'Economia': {
     icon: '◈',
-    desc: 'Gana dinero con estos comandos',
+    desc: 'Gana dinero, trafica y gestiona tus recursos',
     commands: [
       { name: '!bal / !balance / !coins', syntax: '!bal', desc: 'Ver tu balance de diamantes, droga, regalos y tickets', tags: ['info'] },
       { name: '!w / !work', syntax: '!w', desc: 'Trabaja para ganar diamantes. Cooldown: 5 min', tags: ['ganancias'] },
       { name: '!slut', syntax: '!slut', desc: 'Trabajo arriesgado con mayor ganancia potencial. Cooldown: 10 min', tags: ['riesgo', 'ganancias'] },
       { name: '!crime', syntax: '!crime', desc: 'Comete un crimen. Exito: ganas diamantes. Fallo: arrestado. Cooldown: 10 min', tags: ['riesgo', 'ganancias'] },
       { name: '!daily', syntax: '!daily', desc: 'Recompensa diaria con racha acumulativa. Casado: +15 diamantes bonus', tags: ['ganancias'] },
+      { name: '!droga', syntax: '!droga [kilos pares]', desc: 'Compra kilos de droga. Costo: 1 diamante por kilo. Minimo 2, cantidad par', tags: ['trafico'] },
+      { name: '!dt', syntax: '!dt [kilos pares] [soborno]', desc: 'Trafica kilos de droga. Soborno opcional reduce probabilidad de fallo. Cooldown: 45 min', tags: ['trafico', 'riesgo'] },
       { name: '!cf / !coinflip / !flip', syntax: '!cf [cantidad]', desc: 'Apuesta diamantes en cara o cruz. Ganas o pierdes lo apostado', tags: ['apuestas'] },
+      { name: '!desafiar', syntax: '!desafiar @usuario [cantidad]', desc: 'Desafia a un duelo de coinflip. El objetivo acepta respondiendo al mensaje', tags: ['pvp'] },
       { name: '!loteria / !play / !ruleta', syntax: '!loteria [intentos]', desc: 'Juega a la loteria por tickets y premios', tags: ['apuestas'] },
       { name: '!premios', syntax: '!premios', desc: 'Ver probabilidades y premios de la loteria', tags: ['info'] },
       { name: '!roll / !usetickets', syntax: '!roll', desc: 'Usa todos tus tickets acumulados de una vez', tags: ['ganancias'] },
       { name: '!abrir', syntax: '!abrir', desc: 'Abre todos tus regalos acumulados', tags: ['ganancias'] },
       { name: '!asesinato / !asesinar / !matar', syntax: '!asesinato @usuario', desc: 'Intenta asesinar a un usuario. Cooldown: 1 min', tags: ['pvp', 'riesgo'] },
       { name: '!robar', syntax: '!robar @usuario', desc: 'Intenta robar diamantes a otro usuario. Cooldown: 2 horas', tags: ['pvp', 'riesgo'] },
-      { name: '!desafiar', syntax: '!desafiar @usuario [cantidad]', desc: 'Desafia a un duelo de coinflip. El objetivo acepta respondiendo al mensaje', tags: ['pvp'] },
       { name: '!pay', syntax: '!pay [cantidad] @usuario', desc: 'Envia diamantes a otro usuario. Limite diario aplicable (ilimitado entre casados)', tags: ['transferencias'] },
       { name: '!donar', syntax: '!donar [cantidad]', desc: 'Dona diamantes al banco del servidor', tags: ['transferencias'] },
       { name: '!topdonadores / !donadores', syntax: '!topdonadores [pagina]', desc: 'Ver el ranking de mayores donadores', tags: ['ranking', 'info'] },
@@ -996,83 +1013,90 @@ const comandos = {
       { name: '!suicidio', syntax: '!suicidio', desc: 'Resetea tu cuenta en este grupo. Pierdes dinero, droga, alias y antecedentes', tags: ['peligro'] },
     ]
   },
-  'Niveles': {
+  'Progresion': {
     icon: '◆',
-    desc: 'Sistema de XP y rangos global',
+    desc: 'Sistema de niveles, XP y misiones diarias',
     commands: [
       { name: '!level / !lvl', syntax: '!level', desc: 'Ver tu nivel, XP, rango y barra de progreso. Si tienes recompensa pendiente, responde "Reclamar"', tags: ['info', 'xp'] },
       { name: '!toplevel / !toplvl', syntax: '!toplevel [pagina]', desc: 'Ranking de usuarios con nivel mas alto', tags: ['ranking', 'xp'] },
-    ]
-  },
-  'Misiones': {
-    icon: '◉',
-    desc: 'Completa misiones diarias para obtener recompensas',
-    commands: [
       { name: '!misiones / !tareas', syntax: '!misiones', desc: 'Ver tus 3 misiones diarias y su progreso actual', tags: ['info'] },
       { name: '!reclamar', syntax: '!reclamar [numero/all]', desc: 'Reclamar recompensa de una mision completada o de todas', tags: ['recompensas'] },
     ]
   },
-  'Drogas': {
-    icon: '◎',
-    desc: 'Sistema de trafico de drogas',
+  'Banco & Tienda': {
+    icon: '◰',
+    desc: 'Prestamos, economia del servidor y canje de articulos',
     commands: [
-      { name: '!droga', syntax: '!droga [kilos pares]', desc: 'Compra kilos de droga. Costo: 1 diamante por kilo. Minimo 2, cantidad par', tags: ['trafico'] },
-      { name: '!dt', syntax: '!dt [kilos pares] [soborno]', desc: 'Trafica kilos de droga. Soborno opcional reduce probabilidad de fallo. Cooldown: 45 min', tags: ['trafico', 'riesgo'] },
+      { name: '!banco', syntax: '!banco', desc: 'Ver informacion del banco: dinero disponible y tu prestamo activo', tags: ['info'] },
+      { name: '!prestamo', syntax: '!prestamo [cantidad]', desc: 'Pide un prestamo (50-100 diamantes). Tienes 5 horas para pagar', tags: ['prestamos'] },
+      { name: '!pagarprestamo', syntax: '!pagarprestamo', desc: 'Paga tu prestamo activo antes del plazo', tags: ['prestamos'] },
+      { name: '!infoprestamo / !infprestamo', syntax: '!infoprestamo', desc: 'Ver detalles de tu prestamo: cantidad, tiempo restante e interes', tags: ['info', 'prestamos'] },
+      { name: '!prestamos', syntax: '!prestamos', desc: '[Admin] Ver todos los prestamos activos del servidor', tags: ['admin'] },
+      { name: '!tienda', syntax: '!tienda', desc: 'Ver todos los articulos disponibles para canjear y sus precios', tags: ['tienda'] },
+      { name: '!canjear', syntax: '!canjear [nombre/#]', desc: 'Canjea un articulo por su nombre o numero', tags: ['tienda'] },
     ]
   },
   'Carcel': {
     icon: '◧',
-    desc: 'Sistema de prisiones, fianzas y escapes',
+    desc: 'Prisiones, fianzas, escapes y lista de buscados',
     commands: [
       { name: '!fianza', syntax: '!fianza', desc: 'Paga tu propia fianza para salir antes de prision', tags: ['prision'] },
       { name: '!fianza @pareja', syntax: '!fianza @pareja', desc: 'Paga la fianza de tu conyuge (solo si estan casados)', tags: ['prision', 'matrimonio'] },
       { name: '!escapar', syntax: '!escapar [@usuario]', desc: 'Intenta escapar solo o en duo con otro arrestado. Cada seguridad tiene diferente probabilidad', tags: ['prision', 'riesgo'] },
       { name: '!antecedentes', syntax: '!antecedentes [@usuario]', desc: 'Ver historial de arrestos de un usuario', tags: ['info'] },
-      { name: '!buscados', syntax: '!buscados', desc: 'Ver la lista de los mas buscados actualmente', tags: ['info'] },
       { name: '!prisioneros', syntax: '!prisioneros', desc: 'Ver todos los usuarios arrestados actualmente', tags: ['info'] },
+      { name: '!buscados', syntax: '!buscados', desc: 'Ver la lista de los mas buscados actualmente', tags: ['info'] },
+      { name: '!wanted / !buscado', syntax: '!wanted [@usuario]', desc: 'Genera una ficha visual de SE BUSCA con recompensa, nivel, kills y foto de perfil', tags: ['info', 'crimen'] },
+      { name: '!cazar', syntax: '!cazar @usuario', desc: 'Caza a un usuario de la lista de mas buscados para cobrar su recompensa en diamantes', tags: ['crimen', 'ganancias'] },
     ]
   },
-  'Matrimonio': {
+  'Familia': {
     icon: '◊',
-    desc: 'Sistema de relaciones y matrimonio',
+    desc: 'Relaciones, matrimonio e hijos',
     commands: [
       { name: '!kiss', syntax: '!kiss @usuario', desc: 'Besa a alguien. El besado puede responder "Corresponder" al mensaje para que cuente mutuamente', tags: ['social'] },
       { name: '!marry', syntax: '!marry @usuario', desc: 'Propuesta de matrimonio. El objetivo acepta respondiendo "Aceptar". Requisito: nivel 2+', tags: ['matrimonio'] },
       { name: '!boda', syntax: '!boda', desc: 'Celebra la boda tras 24h comprometidos y 3+ besos mutuos. Costo: 25 diamantes cada uno', tags: ['matrimonio'] },
       { name: '!divorce / !divorciarse', syntax: '!divorce', desc: 'Divorciarse. Costo: 100 diamantes. Con prenup: division 50/50 de diamantes', tags: ['matrimonio'] },
+      { name: '!sexo', syntax: '!sexo', desc: 'Intenta tener un hijo con tu pareja. 2% de probabilidad de embarazo. Requiere estar casado. Cooldown: 20 min', tags: ['familia'] },
+      { name: '!hijos', syntax: '!hijos', desc: 'Ver tus hijos, su edad, estado de hambre y saldo generado. Menores de 16 necesitan comida para sobrevivir', tags: ['familia', 'info'] },
+      { name: '!alimentar', syntax: '!alimentar [nombre]', desc: 'Alimenta a uno de tus hijos menores de 16 anos para evitar que muera de hambre', tags: ['familia'] },
+      { name: '!rh / !retirarhijos', syntax: '!rh', desc: 'Retira los diamantes generados por tus hijos adultos con empleo', tags: ['familia', 'ganancias'] },
+      { name: '!abandonar', syntax: '!abandonar [nombre]', desc: 'Abandona a uno de tus hijos. Puede morir o quedar a cargo del otro padre', tags: ['familia', 'peligro'] },
     ]
   },
-  'Banco': {
-    icon: '◰',
-    desc: 'Prestamos con interes y economia del servidor',
+  'PvP': {
+    icon: '⚔',
+    desc: 'Combates por turnos y duelos entre jugadores',
     commands: [
-      { name: '!banco', syntax: '!banco', desc: 'Ver informacion del banco: dinero disponible, tu prestamo activo', tags: ['info'] },
-      { name: '!prestamo', syntax: '!prestamo [cantidad]', desc: 'Pide un prestamo (50-100 diamantes). Tienes 5 horas para pagar', tags: ['prestamos'] },
-      { name: '!pagarprestamo', syntax: '!pagarprestamo', desc: 'Paga tu prestamo activo antes del plazo', tags: ['prestamos'] },
-      { name: '!infoprestamo / !infprestamo', syntax: '!infoprestamo', desc: 'Ver detalles de tu prestamo: cantidad, tiempo restante, interes', tags: ['info', 'prestamos'] },
-      { name: '!prestamos', syntax: '!prestamos', desc: '[Admin] Ver todos los prestamos activos del servidor', tags: ['admin'] },
+      { name: '!pvp', syntax: '!pvp @usuario', desc: 'Desafia a otro usuario a un combate PvP por turnos. El objetivo acepta respondiendo "Aceptar". Expira en 60 segundos', tags: ['pvp', 'combate'] },
+      { name: '!versus', syntax: '!versus @usuario1 @usuario2', desc: 'Genera una tarjeta visual de comparacion entre dos usuarios (nivel, kills, diamantes)', tags: ['pvp', 'info'] },
+      { name: '!reglas', syntax: '!reglas', desc: 'Ver las reglas del sistema PvP: HP, Armor, tipos de cartas y probabilidades de cada una', tags: ['pvp', 'info'] },
     ]
   },
-  'Tienda': {
-    icon: '◬',
-    desc: 'Canjea premios por diamantes',
+  'Combate': {
+    icon: '◉',
+    desc: 'Armas y habilidades pasivas para mejorar tu personaje',
     commands: [
-      { name: '!tienda', syntax: '!tienda', desc: 'Ver todos los articulos disponibles para canjear y sus precios', tags: ['tienda'] },
-      { name: '!canjear', syntax: '!canjear [nombre/#]', desc: 'Canjea un articulo por su nombre o numero', tags: ['tienda'] },
+      { name: '!arsenal', syntax: '!arsenal', desc: 'Ver todas las armas disponibles con sus estadisticas: dano, cooldown, probabilidad de exito y precio', tags: ['info', 'armas'] },
+      { name: '!habilidades', syntax: '!habilidades', desc: 'Ver las habilidades pasivas disponibles y elegir una. Requiere nivel 10+. Incluye Minero, Ladron, Sicario y mas', tags: ['info', 'habilidades'] },
+      { name: '!minar', syntax: '!minar', desc: 'Mina diamantes (5-15). Requiere habilidad pasiva Minero activa. Cooldown: 10 min', tags: ['ganancias', 'habilidades'] },
     ]
   },
   'Diversion': {
     icon: '◇',
-    desc: 'Comandos de entretenimiento social',
+    desc: 'Entretenimiento social y herramientas visuales',
     commands: [
       { name: '!amor', syntax: '!amor @usuario1 @usuario2', desc: 'Calcula la compatibilidad amorosa entre dos usuarios', tags: ['social'] },
       { name: '!porcentaje', syntax: '!porcentaje [categoria] @usuario', desc: 'Mide el porcentaje de cualquier cosa de un usuario', tags: ['social'] },
       { name: '!top', syntax: '!top [nombre]', desc: 'Genera un top 5 aleatorio de cualquier categoria', tags: ['social'] },
       { name: '!fake', syntax: '!fake [mensaje] / [respuesta] @usuario', desc: 'Crea un mensaje falso de otro usuario respondiendo algo', tags: ['social'] },
       { name: '!alias', syntax: '!alias [tu alias]', desc: 'Establece tu apodo global permanente. Solo cambiable con !suicidio', tags: ['perfil'] },
+      { name: '!s / !sticker', syntax: '!s', desc: 'Convierte una imagen o video en sticker. Responde a un media o envialo con el comando', tags: ['utilidad'] },
+      { name: '!i / !imagen', syntax: '!i', desc: 'Convierte un sticker de vuelta a imagen. Responde al sticker con el comando', tags: ['utilidad'] },
     ]
   },
-  'Administración': {
+  'Administracion': {
     icon: '⚙',
     desc: 'Comandos exclusivos para administradores del grupo',
     commands: [
@@ -1552,7 +1576,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── TOPS ─────────────────────────────────────────────────
-const API_BASE = 'https://lows-tan-nokia-instrumental.trycloudflare.com';
+const API_BASE = 'https://tales-nissan-flashing-compliant.trycloudflare.com';
 
 function renderTopRow(i, name, value, label, type) {
   const posClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'normal';
@@ -1702,7 +1726,7 @@ function _loadGameFrame(type) {
   _f.scrolling = 'no';
   _f.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;display:block;z-index:9999;background:#000;';
 
-  const srcId = type === 'space' ? 'space-game-src' : 'zombie-game-src';
+  const srcId = type === 'space' ? 'space-game-src' : type === 'snake' ? 'snake-game-src' : 'zombie-game-src';
   // Inyectar meta viewport correcto en el srcdoc para garantizar escala en móvil
   let gameHtml = document.getElementById(srcId).value;
   if (!gameHtml.includes('viewport-fit=cover')) {
@@ -2129,7 +2153,7 @@ const ZOMBIE_TYPES={
 // ══ STATE ══
 let phase='menu',round=1,totalKills=0;
 let sessionRewards={diamonds:0,tickets:0,drugs:0};
-const API_URL='https://lows-tan-nokia-instrumental.trycloudflare.com';
+const API_URL='https://tales-nissan-flashing-compliant.trycloudflare.com';
 let gameStartTime=0,player={};
 let ammo=MAX_AMMO,reloading=false,reloadTimer=0;
 let pellets=[],zombies=[],bloods=[],dmgNums=[],spitProjectiles=[],explosions=[];
@@ -3924,7 +3948,7 @@ function gameOver(reason){
 }
 function showTitle(){document.getElementById(&#x27;gameover-screen&#x27;).classList.add(&#x27;hidden&#x27;);document.getElementById(&#x27;title-screen&#x27;).classList.remove(&#x27;hidden&#x27;);}
 
-const API_URL=&#x27;https://lows-tan-nokia-instrumental.trycloudflare.com&#x27;;
+const API_URL=&#x27;https://tales-nissan-flashing-compliant.trycloudflare.com&#x27;;
 async function generateCode(){
   const alias=document.getElementById(&#x27;alias-input&#x27;).value.trim();
   if(!alias){document.getElementById(&#x27;alias-input&#x27;).focus();return;}
@@ -4104,4 +4128,341 @@ window.addEventListener(&#x27;keydown&#x27;,e=&gt;{
   draw();
 })();
 </script>
+<textarea id="snake-game-src" style="display:none">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no&quot;&gt;
+&lt;meta name=&quot;mobile-web-app-capable&quot; content=&quot;yes&quot;&gt;
+&lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;&gt;
+&lt;title&gt;DARK SNAKE&lt;/title&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&amp;family=Share+Tech+Mono&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#04080d;--red:#ff3c3c;--green:#00ff88;--dim:#142236;
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);
+  --sar:env(safe-area-inset-right,0px);--sal:env(safe-area-inset-left,0px);
+}
+html,body{width:100%;height:100%;background:var(--bg);overflow:hidden;user-select:none;
+  -webkit-tap-highlight-color:transparent;touch-action:none;position:fixed;}
+canvas{display:block;image-rendering:pixelated;}
+#hud{
+  position:fixed;top:0;left:0;right:0;
+  padding:calc(10px + var(--sat)) calc(16px + var(--sar)) 10px calc(16px + var(--sal));
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(4,8,13,0.92);border-bottom:1px solid var(--dim);z-index:20;
+}
+.hud-label{font-family:'Orbitron',monospace;font-size:0.55rem;letter-spacing:0.2em;color:#3e5a78;margin-bottom:2px;}
+.hud-val{font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:var(--green);}
+.hud-val.red{color:var(--red);}
+#btn-close{
+  background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.3);
+  color:var(--red);font-family:'Orbitron',monospace;font-size:0.6rem;
+  padding:6px 14px;cursor:pointer;letter-spacing:0.15em;border-radius:2px;
+}
+#canvas-wrap{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+/* D-pad tactil */
+#dpad{
+  position:fixed;bottom:calc(20px + var(--sab));left:50%;transform:translateX(-50%);
+  display:grid;grid-template-columns:60px 60px 60px;grid-template-rows:60px 60px 60px;
+  gap:4px;z-index:30;opacity:0.75;
+}
+.dp-btn{
+  background:rgba(20,34,54,0.85);border:1px solid rgba(255,60,60,0.25);
+  border-radius:4px;display:flex;align-items:center;justify-content:center;
+  color:var(--red);font-size:1.4rem;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  active-scale:0.9;
+}
+.dp-btn:active{background:rgba(255,60,60,0.15);}
+.dp-empty{pointer-events:none;}
+/* overlay screens */
+#overlay{
+  position:fixed;inset:0;background:rgba(4,8,13,0.93);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:50;gap:1.2rem;padding:2rem;
+}
+#overlay.hidden{display:none;}
+.ov-title{font-family:'Orbitron',monospace;font-size:clamp(1.2rem,5vw,2rem);color:var(--red);letter-spacing:0.2em;text-align:center;}
+.ov-sub{font-family:'Share Tech Mono',monospace;font-size:clamp(0.75rem,3vw,1rem);color:#3e5a78;text-align:center;line-height:1.6;}
+.ov-score{font-family:'Orbitron',monospace;font-size:clamp(1rem,4vw,1.6rem);color:var(--green);}
+.ov-code{
+  font-family:'Share Tech Mono',monospace;font-size:clamp(0.85rem,3.5vw,1.1rem);
+  color:var(--green);background:rgba(0,255,136,0.08);
+  border:1px solid rgba(0,255,136,0.3);padding:0.6rem 1.4rem;border-radius:4px;
+  letter-spacing:0.15em;cursor:pointer;position:relative;
+}
+.ov-code::after{content:'TAP PARA COPIAR';position:absolute;bottom:-1.2rem;left:50%;transform:translateX(-50%);
+  font-size:0.5rem;color:#3e5a78;letter-spacing:0.1em;white-space:nowrap;}
+.ov-btn{
+  background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.35);
+  color:var(--red);font-family:'Orbitron',monospace;font-size:0.7rem;
+  padding:12px 32px;cursor:pointer;letter-spacing:0.2em;border-radius:2px;margin-top:0.5rem;
+}
+.ov-btn:active{background:rgba(255,60,60,0.25);}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;hud&quot;&gt;
+  &lt;div&gt;
+    &lt;div class=&quot;hud-label&quot;&gt;PUNTOS&lt;/div&gt;
+    &lt;div class=&quot;hud-val&quot; id=&quot;hud-score&quot;&gt;0&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div style=&quot;text-align:center&quot;&gt;
+    &lt;div class=&quot;hud-label&quot;&gt;DARK SNAKE&lt;/div&gt;
+    &lt;div class=&quot;hud-val&quot; id=&quot;hud-diamonds&quot;&gt;0 DIAM&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button id=&quot;btn-close&quot; onclick=&quot;window.parent.postMessage('game-close','*')&quot;&gt;X SALIR&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;canvas-wrap&quot;&gt;&lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;&lt;/div&gt;
+&lt;div id=&quot;dpad&quot;&gt;
+  &lt;div class=&quot;dp-empty&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;dp-btn&quot; id=&quot;dp-up&quot;&gt;▲&lt;/div&gt;
+  &lt;div class=&quot;dp-empty&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;dp-btn&quot; id=&quot;dp-left&quot;&gt;◀&lt;/div&gt;
+  &lt;div class=&quot;dp-empty&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;dp-btn&quot; id=&quot;dp-right&quot;&gt;▶&lt;/div&gt;
+  &lt;div class=&quot;dp-empty&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;dp-btn&quot; id=&quot;dp-down&quot;&gt;▼&lt;/div&gt;
+  &lt;div class=&quot;dp-empty&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;overlay&quot;&gt;
+  &lt;div class=&quot;ov-title&quot; id=&quot;ov-title&quot;&gt;DARK SNAKE&lt;/div&gt;
+  &lt;div class=&quot;ov-sub&quot; id=&quot;ov-sub&quot;&gt;Recoge manzanas para ganar diamantes&lt;br&gt;Cada 3 manzanas = 1 diamante real&lt;br&gt;&lt;br&gt;PC: Flechas del teclado&lt;br&gt;Movil: D-pad tactil&lt;/div&gt;
+  &lt;div class=&quot;ov-score&quot; id=&quot;ov-score&quot; style=&quot;display:none&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;ov-code&quot; id=&quot;ov-code&quot; style=&quot;display:none&quot; onclick=&quot;copyCode()&quot;&gt;&lt;/div&gt;
+  &lt;button class=&quot;ov-btn&quot; id=&quot;ov-btn&quot; onclick=&quot;startGame()&quot;&gt;INICIAR&lt;/button&gt;
+&lt;/div&gt;
+&lt;script&gt;
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const API_URL = 'https://tales-nissan-flashing-compliant.trycloudflare.com';
+
+// Responsive canvas
+const HUD_H = 56;
+const DPAD_H = 220; // space reserved for dpad on mobile
+let CELL, COLS, ROWS, W, H, isMobile;
+
+function resize() {
+  isMobile = ('ontouchstart' in window) || window.innerWidth < 700;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const playH = isMobile ? vh - HUD_H - DPAD_H : vh - HUD_H - 20;
+  const playW = vw;
+  // Cell size: target ~20 cells across, min 14px, max 28px
+  CELL = Math.max(14, Math.min(28, Math.floor(Math.min(playW, playH * 1.4) / 22)));
+  COLS = Math.floor(playW / CELL);
+  ROWS = Math.floor(playH / CELL);
+  W = COLS * CELL; H = ROWS * CELL;
+  canvas.width = W; canvas.height = H;
+  const wrap = document.getElementById('canvas-wrap');
+  wrap.style.top = HUD_H + 'px';
+  wrap.style.height = (vh - HUD_H) + 'px';
+  wrap.style.alignItems = 'flex-start';
+  wrap.style.paddingTop = '10px';
+  // Show/hide dpad
+  document.getElementById('dpad').style.display = isMobile ? 'grid' : 'none';
+}
+
+// Game state
+let snake, dir, nextDir, apple, appleCount, diamonds, score, gameLoop, alive, gameStarted;
+
+function randomPos() {
+  return { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) };
+}
+
+function placeApple() {
+  let pos;
+  do { pos = randomPos(); }
+  while (snake.some(s => s.x === pos.x && s.y === pos.y));
+  return pos;
+}
+
+function startGame() {
+  resize();
+  document.getElementById('overlay').classList.add('hidden');
+  snake = [
+    { x: Math.floor(COLS/2), y: Math.floor(ROWS/2) },
+    { x: Math.floor(COLS/2)-1, y: Math.floor(ROWS/2) },
+    { x: Math.floor(COLS/2)-2, y: Math.floor(ROWS/2) },
+  ];
+  dir = { x:1, y:0 }; nextDir = { x:1, y:0 };
+  apple = placeApple();
+  appleCount = 0; diamonds = 0; score = 0; alive = true; gameStarted = true;
+  document.getElementById('hud-score').textContent = '0';
+  document.getElementById('hud-diamonds').textContent = '0 DIAM';
+  if (gameLoop) clearInterval(gameLoop);
+  gameLoop = setInterval(tick, 120);
+}
+
+function tick() {
+  if (!alive) return;
+  dir = { ...nextDir };
+  const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+  // Wall collision
+  if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) { die(); return; }
+  // Self collision
+  if (snake.some(s => s.x === head.x && s.y === head.y)) { die(); return; }
+  snake.unshift(head);
+  // Apple
+  if (head.x === apple.x && head.y === apple.y) {
+    appleCount++;
+    score += 10;
+    if (appleCount % 3 === 0) diamonds++;
+    document.getElementById('hud-score').textContent = score;
+    document.getElementById('hud-diamonds').textContent = diamonds + ' DIAM';
+    apple = placeApple();
+  } else {
+    snake.pop();
+  }
+  draw();
+}
+
+function die() {
+  alive = false;
+  clearInterval(gameLoop);
+  showGameOver();
+}
+
+function draw() {
+  // Background grid
+  ctx.fillStyle = '#04080d';
+  ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = 'rgba(20,34,54,0.6)';
+  ctx.lineWidth = 0.5;
+  for (let x = 0; x <= COLS; x++) { ctx.beginPath(); ctx.moveTo(x*CELL,0); ctx.lineTo(x*CELL,H); ctx.stroke(); }
+  for (let y = 0; y <= ROWS; y++) { ctx.beginPath(); ctx.moveTo(0,y*CELL); ctx.lineTo(W,y*CELL); ctx.stroke(); }
+
+  // Snake
+  snake.forEach((s, i) => {
+    const t = i / snake.length;
+    const r = Math.round(0 + t * 0);
+    const g = Math.round(255 - t * 120);
+    const b = Math.round(136 - t * 80);
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.shadowColor = i === 0 ? '#00ff88' : 'transparent';
+    ctx.shadowBlur = i === 0 ? 12 : 0;
+    const pad = i === 0 ? 1 : 2;
+    ctx.beginPath();
+    ctx.roundRect(s.x*CELL+pad, s.y*CELL+pad, CELL-pad*2, CELL-pad*2, 3);
+    ctx.fill();
+  });
+  ctx.shadowBlur = 0;
+
+  // Apple
+  ctx.fillStyle = '#ff3c3c';
+  ctx.shadowColor = '#ff3c3c';
+  ctx.shadowBlur = 16;
+  const ax = apple.x*CELL + CELL/2, ay = apple.y*CELL + CELL/2, ar = CELL/2 - 2;
+  ctx.beginPath(); ctx.arc(ax, ay, ar, 0, Math.PI*2); ctx.fill();
+  ctx.shadowBlur = 0;
+  // Apple leaf
+  ctx.fillStyle = '#00ff88';
+  ctx.fillRect(apple.x*CELL + CELL/2 - 1, apple.y*CELL + 2, 2, 4);
+}
+
+let generatedCode = null;
+async function showGameOver() {
+  const ovTitle = document.getElementById('ov-title');
+  const ovSub = document.getElementById('ov-sub');
+  const ovScore = document.getElementById('ov-score');
+  const ovCode = document.getElementById('ov-code');
+  const ovBtn = document.getElementById('ov-btn');
+  const overlay = document.getElementById('overlay');
+
+  ovTitle.textContent = 'GAME OVER';
+  ovScore.style.display = 'block';
+  ovScore.textContent = score + ' pts — ' + appleCount + ' manzanas — ' + diamonds + ' diam';
+  ovBtn.textContent = 'REINTENTAR';
+
+  if (diamonds > 0) {
+    ovSub.textContent = 'Generando codigo de recompensa...';
+    ovCode.style.display = 'none';
+    overlay.classList.remove('hidden');
+    try {
+      const res = await fetch(API_URL + '/api/generar-codigo', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ diamonds, tickets: 0, drugs: 0, alias: 'snake_player', source: 'snake_game' })
+      });
+      const data = await res.json();
+      if (data.code) {
+        generatedCode = data.code;
+        ovCode.textContent = data.code;
+        ovCode.style.display = 'block';
+        ovSub.textContent = 'Tu codigo con ' + diamonds + ' diamante' + (diamonds>1?'s':'') + '. Usalo en WhatsApp con !codigo';
+      } else {
+        ovSub.textContent = 'No se pudo generar el codigo. Score: ' + score;
+      }
+    } catch(e) {
+      ovSub.textContent = 'Error al conectar con la API. Score: ' + score;
+    }
+  } else {
+    ovSub.textContent = 'Necesitas 3 manzanas para ganar 1 diamante.\nSigue intentando.';
+    ovCode.style.display = 'none';
+    overlay.classList.remove('hidden');
+  }
+}
+
+function copyCode() {
+  if (!generatedCode) return;
+  navigator.clipboard.writeText(generatedCode).catch(() => {});
+  const el = document.getElementById('ov-code');
+  const prev = el.textContent;
+  el.textContent = 'COPIADO';
+  setTimeout(() => { el.textContent = prev; }, 1200);
+}
+
+// Controls — keyboard
+document.addEventListener('keydown', e => {
+  if (!gameStarted || !alive) return;
+  const k = e.key;
+  if ((k==='ArrowUp'||k==='w') && dir.y!==1) nextDir={x:0,y:-1};
+  else if ((k==='ArrowDown'||k==='s') && dir.y!==-1) nextDir={x:0,y:1};
+  else if ((k==='ArrowLeft'||k==='a') && dir.x!==1) nextDir={x:-1,y:0};
+  else if ((k==='ArrowRight'||k==='d') && dir.x!==-1) nextDir={x:1,y:0};
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(k)) e.preventDefault();
+});
+
+// Controls — dpad
+function dpPress(dx, dy) {
+  if (!gameStarted || !alive) return;
+  if (dy===-1 && dir.y!==1) nextDir={x:0,y:-1};
+  else if (dy===1 && dir.y!==-1) nextDir={x:0,y:1};
+  else if (dx===-1 && dir.x!==1) nextDir={x:-1,y:0};
+  else if (dx===1 && dir.x!==-1) nextDir={x:1,y:0};
+}
+['dp-up','dp-down','dp-left','dp-right'].forEach(id => {
+  const el = document.getElementById(id);
+  const map = {'dp-up':[0,-1],'dp-down':[0,1],'dp-left':[-1,0],'dp-right':[1,0]};
+  const [dx,dy] = map[id];
+  el.addEventListener('touchstart', e => { e.preventDefault(); dpPress(dx,dy); }, {passive:false});
+  el.addEventListener('mousedown', () => dpPress(dx,dy));
+});
+
+// Swipe support
+let touchX=0,touchY=0;
+document.addEventListener('touchstart', e => { touchX=e.touches[0].clientX; touchY=e.touches[0].clientY; }, {passive:true});
+document.addEventListener('touchend', e => {
+  if (!gameStarted || !alive) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  const dy = e.changedTouches[0].clientY - touchY;
+  if (Math.abs(dx) < 20 && Math.abs(dy) < 20) return;
+  if (Math.abs(dx) > Math.abs(dy)) {
+    if (dx > 0 && dir.x !== -1) nextDir={x:1,y:0};
+    else if (dx < 0 && dir.x !== 1) nextDir={x:-1,y:0};
+  } else {
+    if (dy > 0 && dir.y !== -1) nextDir={x:0,y:1};
+    else if (dy < 0 && dir.y !== 1) nextDir={x:0,y:-1};
+  }
+}, {passive:true});
+
+window.addEventListener('resize', () => { if (gameStarted && alive) { resize(); draw(); } });
+resize();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
 </body>
