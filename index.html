@@ -779,34 +779,27 @@
     transform: scale(1.04);
   }
 
-  /* ── GAME MODAL ── */
-  #game-modal {
+  /* ── GAME OVERLAY ── */
+  #game-overlay {
     display: none;
     position: fixed;
     top: 0; left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh; /* dynamic viewport height — ignora barra de navegación móvil */
+    width: 100%;
+    height: 100%;
     z-index: 9999;
-    background: rgba(0,0,0,0.0);
-    animation: modalFadeIn 0.3s ease forwards;
+    background: #000;
     overflow: hidden;
-    -webkit-overflow-scrolling: none;
     touch-action: none;
   }
-  #game-modal.visible { display: block; }
-
-  @keyframes modalFadeIn {
-    from { background: rgba(0,0,0,0); }
-    to   { background: rgba(0,0,0,0.92); }
-  }
-
-  #game-modal-inner {
-    position: fixed;
+  #game-overlay.visible { display: block; }
+  #game-frame {
+    position: absolute;
     top: 0; left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    background: #000;
     overflow: hidden;
   }
 
@@ -964,10 +957,9 @@
   </div>
 </div>
 
-<!-- Game Modal -->
-<div id="game-modal">
-  <div id="game-modal-inner" id="game-container">
-  </div>
+<!-- Game Overlay -->
+<div id="game-overlay">
+  <iframe id="game-frame" scrolling="no" allowfullscreen allow="fullscreen"></iframe>
 </div>
 
 
@@ -1699,63 +1691,71 @@ async function loadTops() {
 }
 
 
-// ── GAME MODAL ───────────────────────────────────────────
+// ── GAME SYSTEM ──────────────────────────────────────────
 let _currentGame = 'zombie';
+let _resizeListener = null;
+
 function openGame(type) {
   _currentGame = type || 'zombie';
-  const modal = document.getElementById('game-modal');
-  modal.classList.add('visible');
+  const overlay = document.getElementById('game-overlay');
+  const frame   = document.getElementById('game-frame');
+
+  // Freeze page scroll and interaction
   document.body.style.overflow = 'hidden';
-  _loadGameFrame(_currentGame);
+  document.body.style.position = 'fixed';
+  document.body.style.width    = '100%';
+  overlay.classList.add('visible');
+
+  _loadGame(frame, _currentGame);
 }
 
-function _loadGameFrame(type) {
-  const container = document.getElementById('game-modal-inner');
-  const _o = container.querySelector('iframe'); if(_o) _o.remove();
-  const _f = document.createElement('iframe');
+function _loadGame(frame, type) {
+  // Remove old resize listener
+  if (_resizeListener) {
+    window.removeEventListener('resize', _resizeListener);
+    if (window.visualViewport) window.visualViewport.removeEventListener('resize', _resizeListener);
+    _resizeListener = null;
+  }
 
-  // Crítico para móvil: permite que el iframe ocupe pantalla completa real
-  _f.setAttribute('allowfullscreen', '');
-  _f.setAttribute('allow', 'fullscreen');
-  _f.scrolling = 'no';
-  // En Chrome móvil 100vh incluye la barra de URL y corta el contenido.
-  // Usamos innerHeight real o visualViewport para la altura correcta.
-  const realH = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
-  _f.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:' + realH + 'px;border:none;display:block;z-index:9999;background:#000;';
-  // Actualizar si el viewport cambia (teclado, rotación, etc.)
-  const _updateH = () => {
-    const h = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
-    _f.style.height = h + 'px';
-  };
-  if (window.visualViewport) window.visualViewport.addEventListener('resize', _updateH);
-  window.addEventListener('resize', _updateH);
+  // Size the frame to real viewport (not 100vh which is wrong on Chrome mobile)
+  function _applySize() {
+    const vvp = window.visualViewport;
+    const W = vvp ? vvp.width  : window.innerWidth;
+    const H = vvp ? vvp.height : window.innerHeight;
+    frame.style.width  = W + 'px';
+    frame.style.height = H + 'px';
+  }
+  _applySize();
 
+  _resizeListener = _applySize;
+  window.addEventListener('resize', _resizeListener);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', _resizeListener);
+
+  // Load game HTML via srcdoc
   const srcId = type === 'space' ? 'space-game-src' : type === 'snake' ? 'snake-game-src' : 'zombie-game-src';
-  // Inyectar meta viewport correcto en el srcdoc para garantizar escala en móvil
-  let gameHtml = document.getElementById(srcId).value;
-  if (!gameHtml.includes('viewport-fit=cover')) {
-    gameHtml = gameHtml.replace(
-      '<meta name="viewport"',
-      '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" data-replaced'
-    );
-  }
-  // Si no tenía meta viewport en absoluto, lo inyecta después del <head>
-  if (!gameHtml.includes('data-replaced') && !gameHtml.includes('name="viewport"')) {
-    gameHtml = gameHtml.replace('<head>', '<head><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">');
-  }
-  _f.srcdoc = gameHtml;
-  container.appendChild(_f);
+  const gameHtml = document.getElementById(srcId).value;
+  frame.srcdoc = gameHtml;
 }
 
 function closeGame() {
-  const modal = document.getElementById('game-modal');
-  modal.classList.remove('visible');
+  const overlay = document.getElementById('game-overlay');
+  const frame   = document.getElementById('game-frame');
+  overlay.classList.remove('visible');
   document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.width    = '';
+  // Unload game to free memory
+  frame.srcdoc = '';
+  if (_resizeListener) {
+    window.removeEventListener('resize', _resizeListener);
+    if (window.visualViewport) window.visualViewport.removeEventListener('resize', _resizeListener);
+    _resizeListener = null;
+  }
 }
 
 window.addEventListener('message', e => {
   if (e.data === 'game-close') closeGame();
-  if (e.data === 'game-restart') _loadGameFrame(_currentGame);
+  if (e.data === 'game-restart') _loadGame(document.getElementById('game-frame'), _currentGame);
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeGame(); });
 
@@ -2835,7 +2835,7 @@ html, body {
   background:var(--bg); color:var(--text);
   font-family:&#x27;Share Tech Mono&#x27;,monospace;
   width:100%; height:100%; height:100dvh;
-  overflow:hidden; touch-action:none; position:fixed;
+  overflow:hidden; touch-action:none; overscroll-behavior:none; position:fixed;
 }
 
 /* Responsive font scaling */
